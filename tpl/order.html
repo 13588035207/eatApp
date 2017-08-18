@@ -1,0 +1,145 @@
+<div ng-include="'tpl/include/header.html'"></div>
+<div ng-controller="mainCtrl">
+        <div id="order-header-bg">
+            <div class="container" id="order-header">
+                <div class="row">
+                    <div class="col-xs-12">
+                        当前位置:{{addr}}>订单信息
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="order-title">
+            <div class="container" >
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <a href="javascript:;">暴走餐厅 | </a>
+                        <span>订单信息</span>
+                    </div>
+                    <div class="col-sm-6 hidden-xs">
+                        <span class="finish"><b>①</b>选择商品——></span>
+                        <span class="finish"><b>②</b>确认订单信息——></span>
+                        <span><b>③</b>成功下单</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="!isOrderEnd">
+            <div class="container" id="order-inner">
+                <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <div class="row">
+                            <p class="order-detail">订单详情 <a href="#/bzMain">< 返回修改</a></p>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-xs-4">
+                                商品
+                            </div>
+                            <div class="col-xs-4">份数</div>
+                            <div class="col-xs-4">小计</div>
+                        </div>
+                        <div class="order-list">
+                            <div class="item" ng-repeat="dish in cartList">
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="dish-name">{{dish.name}}</div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class="operate">
+                                            <button ng-click="reduceCountCart($index)">-</button>
+                                            <input type="text" value='{{dish.dishCount}}'>
+                                            <button ng-click="addCountCart($index)">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <div class=" dish-price">
+                                            {{dish.price*dish.dishCount | currency:'￥'}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-xs-4">
+                                餐盒费
+                            </div>
+                            <div class="col-xs-4"></div>
+                            <div class="col-xs-4">
+                                {{count*1.5 | currency:'￥'}}
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="col-xs-4">
+                                配送费
+                            </div>
+                            <div class="col-xs-4"></div>
+                            <div class="col-xs-4">
+                                {{cost | currency:'￥'}}
+                            </div>
+                        </div>
+                        <div class="total">
+                            <span>￥</span>{{(total+count*1.5+cost).toFixed(2)}}
+                        </div>
+                        <div class="count text-right">
+                            共{{count}}件商品
+                        </div>
+                    </div>
+                    <div class="col-sm-8 col-xs-12" id="order-content">
+                        <div class="main">
+                            <div class="row">
+                                <div class="col-xs-12 order-detail">
+                                    收货地址<a href="./home.html">< 返回修改</a>
+                                </div>
+                            </div>
+                            <div class="row user-info" >
+                                <div>
+                                    <p><span> {{uname}} </span><span> 先生 </span><span> {{tel}} </span></p>
+                                    <p><span>{{addr}}</span></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 order-detail">
+                                    付款方式
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="pay">
+                                    <p class="bold-font">在线支付</p>
+                                    <p>支持微信、支付宝、QQ钱包以及大部分银行卡</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 order-detail">
+                                    配送信息
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="pay">
+                                    <p class="bold-font">距离 时间 </p>
+                                    <p>距您{{distance}}米，{{timer}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid" id="toPay">
+                <div class="container text-right">
+                    <p >应付金额 <span >{{(total+count*1.5+cost) | currency:'￥'}}</span><button class="btn btn-danger" ng-click="payment()">立即支付</button></p>
+                </div>
+            </div>
+        </div>
+        <div ng-show="isOrderEnd">
+            <div class="container">
+                <div class="panel panel-success">
+                    <div class="panel-heading">下单成功</div>
+                    <div class="panel-body">
+                        <a href="#/bzMyOrder">< 查看订单</a>
+                    </div>
+                    <div class="panel-body">
+                        <a href="#/bzMain">< 继续点餐</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

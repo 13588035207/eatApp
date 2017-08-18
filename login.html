@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="bzct">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/login.css"/>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-scroll.js"></script>
+    <script src="js/angular-route.js"></script>
+    <script src="js/login.js"></script>
+    <title>登录</title>
+</head>
+<body>
+    <div class="container" ng-controller="loginCtrl">
+        <div class="main">
+            <div class="title"></div>
+            <form>
+                <div class="form-group">
+                    <input  ng-model="userName" type="text" class="form-control" placeholder="账号">
+                </div>
+                <div class="form-group">
+                    <input ng-model="userPwd" type="password" class="form-control" placeholder="密码">
+                </div>
+                <div class="form-group">
+                    <input ng-model="tel" type="text" class="form-control" placeholder="手机号">
+                </div>
+                <div class="testInfo" ng-show="!isTrue">
+                    {{result}}
+                </div>
+                <button type="button" class="btn btn-success btn-block" ng-click="login()">登录</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

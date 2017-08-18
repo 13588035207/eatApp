@@ -1,0 +1,26 @@
+div{
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+.main{
+    width:350px;
+}
+.main .title{
+    margin-top:100px;
+    height: 81px;
+    width: 174px;
+    background: url("../img/index_z.png") 0 -76px;
+    margin-bottom:50px;
+}
+.main .form-control{
+    height:55px;
+}
+.main .testInfo{
+    color:red;
+    height:20px;
+}
+@media (max-width: 768px) {
+   .main{
+       width:80%;
+   }
+}

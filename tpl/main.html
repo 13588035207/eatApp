@@ -1,0 +1,124 @@
+<!--页眉-->
+
+<div ng-include="'tpl/include/header.html'">
+</div>
+<div class="container">
+    <div ng-if="addr"><span>{{addr}}</span><a href="javascript:;" class="addr" ng-click="jumpToHome()">[切换地址]</a>距您{{distance}}米，{{timer}}</div>
+    <div ng-if="!addr" class="address"><a href="javascript:;" class="addr" ng-click="jumpToHome()">[选择地址]</a></div>
+</div>
+<div class="container" ng-controller="scrollCtrl" id="container-m">
+  <!--搜索框-->
+  <div class="main-search">
+      <div class="inner-search">
+          <div>
+              <div class="input-group">
+                  <input type="text" id="search-input" class="form-control" placeholder="请输入原材料或者菜品名">
+      <span class="input-group-btn">
+        <button class="btn btn-info" type="button" id="search-btn">搜索</button>
+      </span>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container" id="shop-info">
+      <div class="row">
+          <div class="hidden-xs col-sm-6">
+             <div class="active" >
+                 <a>所有商品</a>
+             </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+             <div ng-class="{true: 'active', false: ''}[isFour]" ng-click="turnClassName4()" >
+                 <a href="javascript:;" ng-click="turnTabs()">默认排序</a>
+             </div>
+              <div ng-class="{true: 'active', false: ''}[isFive]" ng-click="turnClassName5()" >
+                  <a href="javascript:;" ng-click="orderList('star')">评分<span class="glyphicon glyphicon-arrow-down"></span></a>
+              </div>
+              <div ng-class="{true: 'active', false: ''}[isSix]" ng-click="turnClassName6()" >
+                  <a href="javascript:;" ng-click="orderList('count')">销量<span class="glyphicon glyphicon-arrow-down"></span></a>
+              </div>
+              <div ng-class="{true: 'active', false: ''}[isSeven]" ng-click="turnClassName7()" >
+                  <a href="javascript:;" ng-click="orderList('price')">价格<span class="glyphicon glyphicon-arrow-down"></span></a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container" ng-show="!isOrder" id="classify">
+      <div class="main">
+          <a href="#section-1" du-smooth-scroll du-scrollspy>热销</a>
+          <a href="#section-2" du-smooth-scroll du-scrollspy>热菜</a>
+          <a href="#section-3" du-smooth-scroll du-scrollspy>主食</a>
+          <a href="#section-4" du-smooth-scroll du-scrollspy>汤类</a>
+          <a href="#section-5" du-smooth-scroll du-scrollspy>冷菜</a>
+          <a href="#section-6" du-smooth-scroll du-scrollspy>饮料</a>
+      </div>
+  </div>
+  <!--缩略图列表-->
+  <div class="container" id="main-list">
+      <div class="row" ng-repeat="tmp in dishList" ng-show="!isOrder">
+          <div class="col-xs-12 list-title" id="section-{{$index+1}}">
+              {{tmp.name}}
+          </div>
+          <div id="list1"  class="col-sm-6 col-xs-12"  ng-repeat="dish in tmp.content">
+              <div class="list-group">
+                  <div class="media">
+                      <div class="media-left media-middle">
+                          <img
+                                  class="media-object"
+                                  ng-src="img/{{dish.img_sm}}" class="img-responsive">
+                      </div>
+                      <div class="media-body">
+                          <p class="dish-name">{{dish.name}}</p>
+                          <p class="evaluate"><a href="javascript:;" class="star"><i class="star-{{dish.star}}"></i></a>月售(<span class="num">{{dish.count}}</span>)</p>
+                          <p class="red-color">{{dish.price | currency:'￥'}}</p>
+                          <div>
+                              <a class="detail" href="#/bzDetail/{{dish.did}}">查看详情</a>
+                              <i class="detail" href="javascript:;"  data-did="{{dish.did}}" id="addToCart">加购物车</i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div>
+  <div class="container" id="main-list2">
+      <div class="row" ng-show="isOrder">
+          <div id="list"  class="col-sm-6 col-xs-12"  ng-repeat="dish in dishListOrder" >
+              <div class="list-group">
+                  <div class="media">
+                      <div class="media-left media-middle">
+                          <img
+                                  class="media-object"
+                                  ng-src="img/{{dish.img_sm}}" class="img-responsive">
+                      </div>
+                      <div class="media-body">
+                          <p class="dish-name">{{dish.name}}</p>
+                          <p class="evaluate"><a href="javascript:;" class="star"><i class="star-{{dish.star}}"></i></a>月售(<span class="num">{{dish.count}}</span>)</p>
+                          <p class="red-color">{{dish.price | currency:'￥'}}</p>
+                          <div>
+                              <a class="detail" href="#/bzDetail/{{dish.did}}">查看详情</a>
+                              <a class="detail" href="javascript:;" ng-click="addToCart($index)">加购物车</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+<div class="container">
+    <button
+            ng-show="hasMore"
+            ng-click="loadMore()"
+            class="btn btn-block btn-success">
+        加载更多
+    </button>
+</div>
+<div class="container" ng-hide="hasMore">
+  <p class="bg-danger loadMore">没有更多数据可以加载了</p>
+</div>
+<!--加载更多的按钮-->
+
+
+<div ng-include="'tpl/include/cart.html'"></div>
+</div>

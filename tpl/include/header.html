@@ -1,0 +1,29 @@
+<div ng-controller="headerCtrl">
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header pull-left">
+        <a class="navbar-brand" href="bzct.html#/myMain">暴走餐厅</a>
+      </div>
+      <div id="account" class="pull-right">
+        <div class="collapse navbar-collapse">
+          <div class="pull-right">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="javascript:;" ng-click="jump('/bzMain')">首页</a></li>
+              <li><a href="javascript:;" ng-click="jump('/bzMyOrder')">我的订单</a></li>
+              <li><a href="javascript:;">加盟合作</a></li>
+              <li><a href="javascript:;">服务中心</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="dropdown" ng-click="dropdown()">
+          <a  href="javascript:;" class="person pull-right" ng-click="headerJump('login.html')">{{result}} <span ng-show="isLogin" class="glyphicon glyphicon-menu-down"></span></a>
+          <ul class="dropdown-menu" ng-show="isShowPerson">
+            <li><a href="#/bzSettings"><span class="glyphicon glyphicon-user"></span>个人设置</a></li>
+            <li><a href="javascript:;" ng-click="off()"><span class="glyphicon glyphicon-off"></span>退出登录</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+</div>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="bzct">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/bzct.css"/>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=XcGgvIPZqE8dbn8ExE1e8B7IAPl6j9po"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-scroll.js"></script>
+    <script src="js/angular-route.js"></script>
+    <script src="js/bzct.js"></script>
+    <title>暴走餐厅</title>
+</head>
+<body ng-controller="homeCtrl">
+<div ng-include="'tpl/include/header.html'"></div>
+    <div id="main">
+        <div id="l-map"></div>
+        <div id="r-result">
+            <span id="city">杭州</span>
+            <input type="text" id="suggestId" ng-model="addr">
+            <button type="button" class="enter" ng-click="jump('bzct.html#/bzMain')">点餐</button>
+        </div>
+        <div id="searchResultPanel"></div>
+    </div>
+<div ng-include="'tpl/include/footer.html'"></div>
+<script>
+    // 百度地图API功能
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var map = new BMap.Map("l-map");
+    map.centerAndZoom("杭州",12);    // 初始化地图,设置城市和地图级别。
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+            {"input" : "suggestId"
+                ,"location" : map
+            });
+
+    ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business+_value.lng+_value.lat;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
+    });
+
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+        setPlace();
+    });
+    var pointA = new BMap.Point(120.38752,30.30776);
+    function setPlace(){
+        map.clearOverlays();    //清除地图上所有覆盖物
+        function myFun(){
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结
+            map.centerAndZoom(pp, 18);
+            map.addOverlay(new BMap.Marker(pp));    //添加标注
+            console.log(pp);
+            var pointB = new BMap.Point(pp.lng,pp.lat);
+            var distance=(map.getDistance(pointB,pointA));
+            var time=parseInt((distance/3000)*60);
+            sessionStorage['time']=time;
+            sessionStorage['distance']=distance;
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+        sessionStorage['addr']=myValue;
+    }
+
+
+</script>
+</body>
+</html>
+

@@ -1,0 +1,28 @@
+<div id="cart" >
+    <div class="shop-cart">
+        <div class="shop-operate" ng-show="isShow">
+            <p>购物车 <a href="javascript:;" ng-click="clearCart()">[清空]</a></p>
+        </div>
+        <div class="dish-list" ng-repeat="dish in cartList track by $index" ng-show="isShow">
+            <div class="item">
+                <div class="dish-name">
+                   {{dish.name}}
+                </div>
+                <div class="operate">
+                    <button ng-click="reduceCountCart($index)">-</button>
+                    <input type="text" value="{{dish.dishCount}}" >
+                    <button ng-click="addCountCart($index)">+</button>
+                </div>
+                <div class="dish-price">
+                    {{dish.price*dish.dishCount | currency:"￥"}}
+                </div>
+            </div>
+        </div>
+        <div class="cart-clearing">
+            <span class="glyphicon glyphicon-shopping-cart icon" ng-click="isShowCart()"></span>
+            <span class="total" ng-click="isShowCart()">{{total | currency:'￥'}}</span>
+            <span class="cost" ng-click="isShowCart()">配送费{{cost | currency:'￥'}}</span>
+            <button ng-class="{true:'toClearing',false:'noToClearing'}[isToClearing]" ng-click="toClearing()">{{cartState}}</button>
+        </div>
+    </div>
+</div>
